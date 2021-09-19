@@ -1,11 +1,12 @@
 import numpy as np
 from timeit import default_timer as timer
-from numba import vectorize
+from numba import vectorize, cuda, njit, prange
+import numba.cuda
 
 
 @vectorize(["float32(float32, float32)"], target='cuda')
 def vector_add(a, b):
-    return a + b
+    return a+b
 
 
 def vector_add2(a, b, c):
@@ -19,7 +20,7 @@ def vector_add3(a, b):
 
 
 def main():
-    n = 600000000
+    n = 60000000
     a = np.ones(n, dtype=np.float32)
 
     start = timer()
